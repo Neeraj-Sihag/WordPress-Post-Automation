@@ -1,63 +1,95 @@
-# WordPress Post Automation
+# WordPress Post Automation Tool
 
-A Python-based automation tool for creating and publishing WordPress posts using the Classic Editor. This tool enables batch processing of posts from text files, handling content formatting, categories, tags, and featured images seamlessly.
+A Python-powered automation system to streamline the process of creating and publishing WordPress posts. This tool supports batch uploads, handling metadata, content formatting, featured images, categories, and tags — all seamlessly integrated with the **WordPress Classic Editor**.
 
-[![Python Version](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/downloads/)
-[![Selenium](https://img.shields.io/badge/selenium-4.0%2B-green.svg)](https://www.selenium.dev/)
+[![Python Version](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/downloads/)  
+[![Selenium](https://img.shields.io/badge/selenium-4.0%2B-green.svg)](https://www.selenium.dev/)  
 [![WordPress](https://img.shields.io/badge/wordpress-6.0%2B-blue.svg)](https://wordpress.org/)
+
+---
 
 ## Features
 
-- ✨ Batch processing of multiple posts from text files
-- 🖼️ Automatic featured image assignment
-- 🏷️ Category and tag management
-- 📝 Support for diverse content blocks
-- 📅 Scheduled publishing or draft-saving
-- 🔄 Smart retry mechanism for failed operations
-- 📊 Comprehensive error logging
-- 🚀 Optimized performance
-
----
-## Time Efficiency
-
-This tool is optimized for speed and reliability. The typical time taken for posting is as follows:
-
-- **90 seconds** per post for straightforward uploads with minimal metadata and content blocks.
-- **120 seconds** per post for complex posts with featured images, multiple categories, tags, and additional validations.
-
-These timings include comprehensive checks for metadata, content formatting, and retries for transient errors.
-
-We are continuously working to improve the performance and reduce the processing time in upcoming versions, ensuring faster and more efficient automation without compromising reliability.
+✨ **Batch Processing**: Automate multiple posts in one go.  
+🖼️ **Featured Image Support**: Add images directly from the WordPress Media Library.  
+🏷️ **Categories and Tags**: Automatically assign categories and tags.  
+📝 **Content Blocks**: Supports headings, paragraphs, lists, quotes, and code blocks.  
+📅 **Scheduling**: Publish immediately, save as a draft, or schedule for future dates.  
+🔄 **Retry Mechanism**: Automatically handles transient errors.  
+📊 **Comprehensive Logs**: Detailed logs for debugging and monitoring.  
+🚀 **AI Prompt**: Use `aiprompt.txt` to generate content files with AI.  
 
 ---
 
 ## Prerequisites
 
-- Python 3.8 or higher
-- WordPress site with the Classic Editor plugin enabled
-- Chrome browser installed
-- WordPress admin credentials
+1. **Python 3.8 or higher**  
+2. **WordPress site with Classic Editor plugin enabled**  
+3. **Google Chrome**  
+4. **ChromeDriver** (managed automatically by `webdriver-manager`)  
+5. **WordPress admin credentials**
 
 ---
 
 ## Installation
 
 1. Clone the repository:
-```bash
-git clone https://github.com/Neeraj-Sihag/wordpress-post-automation.git
-cd wordpress-post-automation
-```
+   ```bash
+   git clone https://github.com/Neeraj-Sihag/wordpress-post-automation.git
+   cd wordpress-post-automation
+   ```
 
 2. Install required dependencies:
-```bash
-pip install -r requirements.txt
-```
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-3. Configure environment variables (or modify `config.py` directly):
-```bash
-export WP_URL="https://your-wordpress-site.com"
-export WP_USER="your_username"
-export WP_PASS="your_password"
+3. Set up the configuration:
+   - Edit `config.py` directly, or set environment variables:
+     ```bash
+     export WP_URL="https://your-wordpress-site.com"
+     export WP_USER="your_username"
+     export WP_PASS="your_password"
+     ```
+
+---
+
+## How It Works
+
+This tool processes `.txt` files in the `topost/` directory. Each file contains **metadata** and **content blocks**. The structure is designed to work seamlessly with WordPress automation.
+
+### Post File Format
+Every post file follows this structure:
+
+```plaintext
+# --- Metadata ---
+title: "Your Post Title"
+description: "Brief description of the post"
+slug: "custom-slug"
+featured_image: "1"             # Media library index
+category: "Technology"
+tags: "Python, Automation, WordPress"
+author: "1"                     # WordPress user ID
+status: "publish"               # Options: "publish", "draft", "private"
+publish_date: "2024-11-17"      # Leave blank for immediate publishing
+
+# --- Content ---
+[paragraph]
+This is an introduction paragraph for the post.
+[/paragraph]
+
+[heading level=2]
+Main Heading
+[/heading]
+
+[list type=unordered]
+- First item
+- Second item
+[/list]
+
+[quote]
+"Automation simplifies everything."
+[/quote]
 ```
 
 ---
@@ -65,169 +97,145 @@ export WP_PASS="your_password"
 ## Directory Structure
 
 ```plaintext
-wordpress_post_automation/
+wordpress-post-automation/
 ├── main.py                  # Main execution script
 ├── config.py                # Configuration settings
-├── wordpress_actions.py     # Core WordPress automation interactions
-├── parser.py                # Post file parser
-├── content_blocks.py        # Content block management
-├── topost                   # Directory for input post files
-├── processed/               # Successfully processed posts
-├── failed/                  # Failed posts
-└── logs/                    # Logs directory
+├── wordpress_actions.py     # Core WordPress interactions
+├── parser.py                # Text file parser
+├── topost/                  # Directory for post files
+│   ├── post1.txt
+│   ├── post2.txt
+├── processed/               # Successfully processed files
+├── failed/                  # Failed processing files
+├── logs/                    # Logs directory
+├── aiprompt.txt             # AI prompt for generating post files
+└── README.md                # Documentation
 ```
 
 ---
 
 ## Usage
 
-1. **Prepare Post Files**  
-   Place post files in the `topost` directory using the following format:
-
-```plaintext
-# --- Metadata ---
-title: "Your Post Title"
-description: "Post description"
-slug: "post-slug"
-featured_image: "2"            # Media library index
-category: "Your Category"
-tags: "Tag1, Tag2, Tag3"
-author: "1"                    # WordPress user ID
-status: "publish"             # publish/draft/private
-publish_date: ""              # YYYY-MM-DD or blank for immediate
-
-# --- Content ---
-[paragraph]
-Your content here with support for various blocks.
-[/paragraph]
-
-[heading level=2]
-Section Title
-[/heading]
-```
-
-2. **Run the Automation**  
-   Use the following command to start the automation process:
-```bash
-python main.py
-```
+1. **Prepare Post Files**: Add properly formatted `.txt` files to the `topost/` directory.  
+2. **Run the Tool**:
+   ```bash
+   python main.py
+   ```
+3. **Monitor Progress**: Check logs for detailed insights. Processed files move to `processed/`, while failed files move to `failed/`.
 
 ---
 
 ## Supported Content Blocks
 
-The following content blocks are supported:
+The tool supports a variety of WordPress content blocks:
 
-- `[paragraph]`: Regular text content
-- `[heading level=1-6]`: Headings
-- `[list type=ordered/unordered]`: Ordered and unordered lists
-- `[quote]`: Blockquotes
-- `[code]`: Code snippets
-- `[embed]`: Media embeds
-- `[image]`: Images
-- `[table]`: Tables
+- **Paragraphs**:
+  ```plaintext
+  [paragraph]
+  Your paragraph content goes here.
+  [/paragraph]
+  ```
+
+- **Headings (Levels 1-6)**:
+  ```plaintext
+  [heading level=2]
+  Heading Text
+  [/heading]
+  ```
+
+- **Lists**:
+  - Unordered:
+    ```plaintext
+    [list type=unordered]
+    - Item 1
+    - Item 2
+    [/list]
+    ```
+  - Ordered:
+    ```plaintext
+    [list type=ordered]
+    1. First item
+    2. Second item
+    [/list]
+    ```
+
+- **Quotes**:
+  ```plaintext
+  [quote]
+  "Your inspirational quote here."
+  [/quote]
+  ```
+
+- **Code Blocks**:
+  ```plaintext
+  [code]
+  def example_function():
+      print("Hello, World!")
+  [/code]
+  ```
 
 ---
 
-## Configuration Options
+## Time Efficiency
 
-You can customize the behavior of the script by editing `config.py`:
+This tool is optimized for both speed and reliability. The typical time taken per post is:
 
-```python
-class Config:
-    BASE_URL = "https://your-wordpress-site.com"
-    USERNAME = "your_username"
-    PASSWORD = "your_password"
-    INPUT_DIR = "topost"
-    PROCESSED_DIR = "processed"
-    FAILED_DIR = "failed"
-    IMPLICIT_WAIT = 10
-    PAGE_LOAD_TIMEOUT = 20
-```
+- **90 seconds**: For simple posts with minimal metadata and content blocks.  
+- **120 seconds**: For complex posts with featured images, multiple categories, and tags.
+
+Timings include comprehensive checks for metadata validation, content formatting, and automatic retries for transient issues.
+
+We are actively improving performance in upcoming versions to further reduce the processing time without compromising reliability.
+
+---
+
+## AI Prompt Integration
+
+The `aiprompt.txt` file is a specially designed prompt for generating properly formatted `.txt` files compatible with this automation tool. Paste the contents into any AI model to create post files effortlessly.
+
+### Example Use Case:
+1. Open `aiprompt.txt` in your editor.  
+2. Copy and paste the contents into an AI system like ChatGPT.  
+3. Provide your input (e.g., "Create a post about Python tips").  
+4. Receive a perfectly formatted `.txt` file ready for automation.
 
 ---
 
 ## Error Handling
 
-1. **Retry Mechanism**  
-   Failed actions are retried up to three times before moving the post file to the `failed/` directory.
+1. **Failed Posts**:
+   - Moved to the `failed/` directory for review.
+   - Logs include detailed error messages.
 
-2. **Logs**  
-   All errors and detailed logs are saved in the `logs/wordpress_automation.log` file.  
-   To monitor logs:
-```bash
-tail -f logs/wordpress_automation.log
-```
+2. **Retries**:
+   - Automatic retries for temporary issues, such as delayed UI rendering.
 
-3. **Post Status**  
-   - Successfully processed files are moved to the `processed/` directory.
-   - Failed files are moved to the `failed/` directory for review.
-
----
-
-## Troubleshooting
-
-### Common Issues
-
-1. **Post Creation Fails**
-   - Ensure WordPress credentials are correct.
-   - Verify the Classic Editor plugin is active.
-   - Check that categories exist in WordPress.
-
-2. **Tags Not Added**
-   - Ensure tags are separated by commas.
-   - Verify tag format in the input file.
-
-3. **Featured Image Issues**
-   - Check the file path or media library index.
-   - Verify media library permissions.
-
-### Logs
-
-Use logs to debug issues. Example:
-```bash
-cat logs/wordpress_automation.log
-```
+3. **Logs**:
+   - Comprehensive logs are saved in the `logs/` directory for debugging and tracking.
 
 ---
 
 ## Contributing
 
-1. Fork the repository.
-2. Create a new feature branch:
-```bash
-git checkout -b feature/AmazingFeature
-```
-3. Commit your changes:
-```bash
-git commit -m 'Add AmazingFeature'
-```
-4. Push to the branch:
-```bash
-git push origin feature/AmazingFeature
-```
+We welcome contributions to improve the tool. Follow these steps:
+
+1. Fork the repository.  
+2. Create a feature branch (`git checkout -b feature/YourFeature`).  
+3. Commit your changes (`git commit -m 'Add YourFeature'`).  
+4. Push to your branch (`git push origin feature/YourFeature`).  
 5. Open a Pull Request.
 
 ---
 
 ## License
 
-This project is licensed under the MIT License. See the `LICENSE` file for details.
+This project is licensed under the MIT License. See the `LICENSE` file for more details.
 
 ---
 
-## Acknowledgments
+## Contact
 
-- [Selenium WebDriver](https://www.selenium.dev/documentation/webdriver/)
-- [WordPress Classic Editor](https://wordpress.org/plugins/classic-editor/)
-- [Python](https://www.python.org/)
+Created by **Neeraj Sihag**.  
+GitHub Repository: [WordPress Post Automation](https://github.com/Neeraj-Sihag/wordpress-post-automation)  
 
----
-
-## Author
-
-**Neeraj Sihag**  
-GitHub: [@Neeraj-Sihag](https://github.com/Neeraj-Sihag)
-
-Project Link: [WordPress Post Automation](https://github.com/Neeraj-Sihag/wordpress-post-automation)
-
+Feel free to reach out for feedback, feature suggestions, or collaboration opportunities!
