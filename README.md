@@ -18,6 +18,18 @@ A Python-based automation tool for creating and publishing WordPress posts using
 - 🚀 Optimized performance
 
 ---
+## Time Efficiency
+
+This tool is optimized for speed and reliability. The typical time taken for posting is as follows:
+
+- **90 seconds** per post for straightforward uploads with minimal metadata and content blocks.
+- **120 seconds** per post for complex posts with featured images, multiple categories, tags, and additional validations.
+
+These timings include comprehensive checks for metadata, content formatting, and retries for transient errors.
+
+We are continuously working to improve the performance and reduce the processing time in upcoming versions, ensuring faster and more efficient automation without compromising reliability.
+
+---
 
 ## Prerequisites
 
