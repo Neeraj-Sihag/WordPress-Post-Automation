@@ -75,28 +75,23 @@ wordpress_post_automation/
 ```plaintext
 # --- Metadata ---
 title: "Your Post Title"
-description: "A brief description of your post."
+description: "Post description"
 slug: "post-slug"
-featured_image: "/path/to/image.jpg"  # Optional
-category: "Category Name"
+featured_image: "2"            # Media library index
+category: "Your Category"
 tags: "Tag1, Tag2, Tag3"
-author: "1"                           # WordPress user ID
-status: "publish"                     # Options: publish, draft, private
-publish_date: ""                      # Leave blank for immediate publishing
+author: "1"                    # WordPress user ID
+status: "publish"             # publish/draft/private
+publish_date: ""              # YYYY-MM-DD or blank for immediate
 
 # --- Content ---
 [paragraph]
-This is a paragraph block.
+Your content here with support for various blocks.
 [/paragraph]
 
 [heading level=2]
-Section Heading
+Section Title
 [/heading]
-
-[list type=unordered]
-- First list item
-- Second list item
-[/list]
 ```
 
 2. **Run the Automation**  
